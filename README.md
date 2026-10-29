@@ -8,10 +8,10 @@ Mobile-first client journey and staff workspace preview.
 python3 -m http.server 8000 --directory dist
 ```
 
-Open http://localhost:8000. No dependency installation or build step is required. Deploy the `dist` folder to a static host.
+Open http://localhost:8000. No dependencies or build step are required. Deploy `dist` to a static host.
 
 ## Preview limitations
 
-Records use browser-local storage (localStorage and IndexedDB). Role selection is a demonstration, not access control. Shared accounts, server-side permissions, secure uploads, live payments and notifications still require backend implementation. Use sample data only. Browser-local records are not included in this export.
+Records stay in the visitor's browser (localStorage and IndexedDB). Role selection is a preview, not access control. Shared accounts, server-side permissions, secure file storage, payments and notifications require backend implementation. Use sample data only. Browser-local records are not included in this export.
 
-The current hosted site continues independently; GitHub pushes do not automatically deploy it.
+The existing hosted site continues independently; GitHub pushes do not automatically deploy it.
