@@ -8,7 +8,8 @@ const footerLinks: [string, string, boolean?][] = [
   ['/voices', 'what people say'],
   ['/resources', 'reports & resources'],
   [links.track, 'check my progress'],
-  [links.desk, 'contact us ↗', true],
+  [links.whatsapp, 'whatsapp ↗', true],
+  [links.desk, 'contact desk ↗', true],
   ['https://ridli.org', 'ridli.org ↗', true],
   [links.workspace, 'workspace'],
 ];

@@ -19,7 +19,11 @@ export const links = {
   track: '/app.html#access',
   workspace: '/app.html#workspace',
   desk: 'https://desk.hamzury.com',
+  whatsapp: `https://wa.me/2349130700056?text=${encodeURIComponent('Hello hamzury, I would like to find my next step.')}`,
 };
+
+/** Display form of the WhatsApp number. */
+export const whatsappNumber = '+234 913 070 0056';
 
 export const hours = 'Monday to Friday, 8:00 to 17:00 (WAT)';
 

@@ -18,7 +18,8 @@
   --radius: 12px;
   --radius-sm: 8px;
   --max: 1250px;
-  --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font: var(--font-sans), 'Helvetica Neue', Arial, sans-serif;
+  --display: var(--font-display), Georgia, 'Times New Roman', serif;
   --shadow: 0 1px 2px rgba(59, 36, 26, 0.05), 0 18px 48px rgba(59, 36, 26, 0.09);
 }
 
@@ -50,7 +51,8 @@ body {
   color: var(--ink);
   font-family: var(--font);
   font-size: 17px;
-  line-height: 1.5;
+  font-weight: 400;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -67,10 +69,18 @@ h1,
 h2,
 h3 {
   margin: 0;
-  letter-spacing: -0.03em;
-  line-height: 1.08;
-  font-weight: 500;
+  font-family: var(--display);
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  font-weight: 400;
   color: var(--brand);
+}
+
+/* Accent line inside a heading, e.g. "move forward." */
+h1 em,
+h2 em {
+  font-style: italic;
+  color: var(--accent);
 }
 
 h1 {
@@ -82,9 +92,9 @@ h2 {
 }
 
 h3 {
-  font-size: 21px;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
+  font-size: 25px;
+  letter-spacing: 0;
+  line-height: 1.2;
 }
 
 p {
@@ -136,15 +146,16 @@ p {
   display: block;
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: lowercase;
-  color: #7c6958;
-  margin-bottom: 18px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 26px;
 }
 
 .lead {
-  font-size: clamp(19px, 2.2vw, 24px);
-  line-height: 1.4;
+  font-size: clamp(19px, 2.2vw, 23px);
+  font-weight: 300;
+  line-height: 1.55;
   color: var(--ink-2);
   margin-top: 20px;
   letter-spacing: -0.01em;
@@ -168,11 +179,12 @@ p {
   gap: 6px;
   min-height: 48px;
   padding: 0 24px;
-  border-radius: 6px;
+  border-radius: 999px;
   background: var(--brand);
   color: #fff;
   font-size: 15px;
   font-weight: 500;
+  letter-spacing: 0.01em;
   text-decoration: none;
   border: 0;
   cursor: pointer;
@@ -1615,21 +1627,17 @@ a:hover > .arrow {
 }
 
 .h-hero h1 {
-  font-size: clamp(48px, 6.4vw, 88px);
-  letter-spacing: -0.045em;
-  line-height: 1.02;
-}
-
-.h-hero h1 em {
-  font-style: normal;
-  color: var(--accent);
+  font-size: clamp(54px, 7.4vw, 108px);
+  letter-spacing: -0.02em;
+  line-height: 0.98;
 }
 
 .h-hero-lead {
   max-width: 520px;
-  margin-top: 30px;
-  font-size: 18px;
-  line-height: 1.7;
+  margin-top: 34px;
+  font-size: 19px;
+  font-weight: 300;
+  line-height: 1.75;
   color: var(--ink-2);
 }
 
@@ -1638,9 +1646,22 @@ a:hover > .arrow {
 }
 
 .h-hero-note {
-  margin-top: 24px;
-  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 40px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--ink-3);
+}
+
+.h-hero-note::before {
+  content: '';
+  flex: none;
+  width: 56px;
+  height: 1px;
+  background: var(--accent);
 }
 
 .h-method {
@@ -1688,9 +1709,10 @@ a:hover > .arrow {
 }
 
 .h-method strong {
-  font-size: 24px;
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-family: var(--display);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.1;
   color: var(--brand);
 }
 
@@ -1744,17 +1766,17 @@ a:hover > .arrow {
 
 .h-section {
   border-top: 1px solid var(--line);
-  padding: clamp(56px, 7vw, 88px) 0;
+  padding: clamp(80px, 10vw, 140px) 0;
 }
 
 .h-head {
-  margin-bottom: 34px;
+  margin-bottom: clamp(40px, 5vw, 64px);
 }
 
 .h-head h2,
 .h-two h2 {
-  font-size: clamp(28px, 3.4vw, 40px);
-  letter-spacing: -0.03em;
+  font-size: clamp(34px, 4.4vw, 56px);
+  letter-spacing: -0.01em;
 }
 
 .h-ventures {
@@ -1837,10 +1859,11 @@ a:hover > .arrow {
 }
 
 .h-body {
-  margin-top: 22px;
+  margin-top: 28px;
   max-width: 520px;
-  font-size: 16px;
-  line-height: 1.75;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.85;
   color: var(--ink-2);
 }
 
@@ -1888,8 +1911,9 @@ a:hover > .arrow {
 
 .h-people-caption span {
   display: block;
-  font-size: 24px;
-  letter-spacing: -0.02em;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 32px;
   color: #fffdf9;
 }
 
@@ -1925,8 +1949,7 @@ a:hover > .arrow {
 }
 
 .h-story h2 {
-  font-size: 26px;
-  letter-spacing: -0.02em;
+  font-size: 32px;
 }
 
 .h-story p {
@@ -1974,5 +1997,76 @@ a:hover > .arrow {
     white-space: nowrap;
     padding: 0 14px;
     font-size: 15px;
+  }
+}
+
+/* Floating WhatsApp button */
+
+.whatsapp {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(18, 140, 70, 0.35);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.whatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(18, 140, 70, 0.45);
+}
+
+.whatsapp svg {
+  width: 28px;
+  height: 28px;
+  flex: none;
+}
+
+.whatsapp-label {
+  font-size: 14px;
+  font-weight: 600;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.3s ease;
+}
+
+.whatsapp:hover .whatsapp-label,
+.whatsapp:focus-visible .whatsapp-label {
+  max-width: 130px;
+  padding-left: 10px;
+}
+
+@media (max-width: 720px) {
+  /* Sit above the sticky "my next step" bar. */
+  .whatsapp {
+    right: 16px;
+    bottom: 84px;
+    height: 54px;
+    padding: 0 13px;
+  }
+}
+
+@media (max-width: 600px) {
+  .eyebrow {
+    letter-spacing: 0.22em;
+  }
+
+  .h-hero-note {
+    letter-spacing: 0.12em;
+  }
+
+  .h-hero-note::before {
+    width: 32px;
   }
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Faq, SectionHead } from '@/components/Sections';
-import { hours, links } from '@/lib/site';
+import { hours, links, whatsappNumber } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -41,13 +41,22 @@ export default function Contact() {
               </a>
             </div>
             <div className="option reveal">
-              <h3>Contact our desk</h3>
+              <h3>Chat on WhatsApp</h3>
               <p>
-                A question about a service, a partnership or something else? Reach our team
-                directly.
+                A quick question about a service, a partnership or something else? Message us on{' '}
+                {whatsappNumber}.
               </p>
-              <a className="btn ghost" href={links.desk} target="_blank" rel="noopener">
-                Open contact desk ↗
+              <a className="btn ghost" href={links.whatsapp} target="_blank" rel="noopener">
+                Chat on WhatsApp ↗
+              </a>
+              <a
+                className="link"
+                href={links.desk}
+                target="_blank"
+                rel="noopener"
+                style={{ marginTop: 16 }}
+              >
+                or open the contact desk
               </a>
             </div>
           </div>
