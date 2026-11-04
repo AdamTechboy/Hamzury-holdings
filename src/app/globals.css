@@ -1,23 +1,35 @@
-/* Public site styles. The legacy app in public/ has its own stylesheets. */
+/* Public site styles. The legacy app in public/ has its own stylesheets.
+   Colours and type follow the original Hamzury brand (public/styles/app.css). */
 
 :root {
-  --bg: #ffffff;
-  --bg-alt: #f5f5f7;
-  --bg-dark: #1d1712;
-  --ink: #1d1d1f;
-  --ink-2: #5f5f66;
-  --ink-3: #86868b;
-  --line: #e3e3e8;
-  --brand: #3b241a;
+  --bg: #f8f3eb; /* milk */
+  --bg-alt: #f1e9dd;
+  --bg-dark: #2b1a12;
+  --white: #fffdf9;
+  --ink: #352a25;
+  --ink-2: #6e716c; /* muted */
+  --ink-3: #8f8378;
+  --line: #e1d6c9;
+  --soft: #eee6db;
+  --brand: #3b241a; /* chocolate */
   --brand-hover: #523425;
-  --accent: #8a5a36;
-  --radius: 22px;
-  --radius-sm: 14px;
-  --max: 1120px;
-  --font:
-    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Inter, Roboto, 'Helvetica Neue',
-    Arial, sans-serif;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.08);
+  --accent: #8d6e50; /* the "move forward." brown */
+  --gold: #b99770;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --max: 1250px;
+  --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --shadow: 0 1px 2px rgba(59, 36, 26, 0.05), 0 18px 48px rgba(59, 36, 26, 0.09);
+}
+
+/* The brand's two-tone strip across the top of every page. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(to right, var(--gold) 23%, var(--brand) 23%);
+  z-index: 60;
 }
 
 *,
@@ -55,17 +67,18 @@ h1,
 h2,
 h3 {
   margin: 0;
-  letter-spacing: -0.022em;
+  letter-spacing: -0.03em;
   line-height: 1.08;
-  font-weight: 700;
+  font-weight: 500;
+  color: var(--brand);
 }
 
 h1 {
-  font-size: clamp(40px, 7vw, 80px);
+  font-size: clamp(40px, 6.5vw, 80px);
 }
 
 h2 {
-  font-size: clamp(32px, 5vw, 56px);
+  font-size: clamp(30px, 4.2vw, 48px);
 }
 
 h3 {
@@ -102,7 +115,7 @@ p {
 .wrap {
   max-width: var(--max);
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 36px;
 }
 
 .section {
@@ -121,11 +134,12 @@ p {
 
 .eyebrow {
   display: block;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--accent);
-  margin-bottom: 12px;
-  letter-spacing: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  color: #7c6958;
+  margin-bottom: 18px;
 }
 
 .lead {
@@ -153,18 +167,43 @@ p {
   justify-content: center;
   gap: 6px;
   min-height: 48px;
-  padding: 0 26px;
-  border-radius: 999px;
+  padding: 0 24px;
+  border-radius: 6px;
   background: var(--brand);
   color: #fff;
-  font-size: 17px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 500;
   text-decoration: none;
   border: 0;
   cursor: pointer;
   transition:
     background 0.2s,
-    transform 0.2s;
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.btn:hover {
+  box-shadow: 0 8px 20px rgba(59, 36, 26, 0.18);
+}
+
+.btn.secondary {
+  background: var(--soft);
+  color: var(--brand);
+}
+
+.btn.secondary:hover {
+  background: #e6dbcc;
+  box-shadow: none;
+}
+
+/* "→" that nudges forward on hover, as in "find my next step →" */
+.arrow {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+a:hover > .arrow {
+  transform: translateX(4px);
 }
 
 .btn:hover {
@@ -187,7 +226,7 @@ p {
 }
 
 .btn.light {
-  background: #fff;
+  background: var(--white);
   color: var(--ink);
 }
 
@@ -196,9 +235,9 @@ p {
 }
 
 .btn-sm {
-  min-height: 34px;
+  min-height: 40px;
   padding: 0 16px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .link {
@@ -232,23 +271,24 @@ p {
 
 .site-header {
   position: sticky;
-  top: 0;
+  top: 5px;
   z-index: 50;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  margin-top: 5px;
+  background: rgba(248, 243, 235, 0.86);
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+  border-bottom: 1px solid var(--line);
 }
 
 .nav {
   display: flex;
   align-items: center;
   gap: 28px;
-  height: 60px;
+  height: 76px;
 }
 
 .nav-logo img {
-  height: 22px;
+  height: 26px;
   width: auto;
 }
 
@@ -312,13 +352,13 @@ p {
 
   .nav-links {
     position: fixed;
-    inset: 60px 0 auto 0;
+    inset: 81px 0 auto 0;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
     margin: 0;
     padding: 8px 24px 28px;
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(248, 243, 235, 0.98);
     border-bottom: 1px solid var(--line);
     box-shadow: 0 24px 40px rgba(0, 0, 0, 0.08);
     transform: translateY(-8px);
@@ -387,7 +427,7 @@ p {
 /* Example roadmap card (illustration of the client portal) */
 
 .mock {
-  background: #fff;
+  background: var(--white);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   border: 1px solid var(--line);
@@ -535,7 +575,7 @@ p {
   position: relative;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: var(--white);
   border-radius: var(--radius);
   padding: 32px 28px 28px;
   text-decoration: none;
@@ -602,7 +642,7 @@ p {
 }
 
 .step {
-  background: #fff;
+  background: var(--white);
   border-radius: var(--radius);
   padding: 30px 26px;
 }
@@ -649,7 +689,7 @@ p {
 }
 
 .section.alt .feature {
-  background: #fff;
+  background: var(--white);
 }
 
 .feature svg {
@@ -874,7 +914,7 @@ p {
 .venture-hero {
   padding: clamp(64px, 9vw, 112px) 0 clamp(56px, 7vw, 88px);
   text-align: center;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--c) 9%, white), white);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c) 8%, var(--bg)), var(--bg));
 }
 
 .venture-hero img.logo {
@@ -916,7 +956,7 @@ p {
 }
 
 .package {
-  background: #fff;
+  background: var(--white);
   border-radius: var(--radius);
   padding: 28px 24px;
   display: flex;
@@ -1034,64 +1074,70 @@ p {
   color: var(--ink-2);
 }
 
-/* Footer */
+/* Footer (original layout: method line and tagline left, links right) */
 
 .site-footer {
-  background: var(--bg-alt);
-  color: var(--ink-2);
-  font-size: 13px;
-  padding: 56px 0 32px;
+  border-top: 1px solid var(--line);
+  color: #7b6c5e;
+  padding: 48px 0 28px;
 }
 
-.footer-grid {
-  display: grid;
-  grid-template-columns: 1.5fr repeat(3, 1fr);
-  gap: 32px;
-  padding-bottom: 36px;
-  border-bottom: 1px solid #d2d2d7;
+.foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px 48px;
+  flex-wrap: wrap;
+  padding-bottom: 28px;
 }
 
-.footer-grid img {
-  height: 20px;
+.foot img {
+  height: 24px;
   width: auto;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
-.footer-grid h4 {
-  margin: 0 0 12px;
+.foot-method {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.foot p {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  margin-top: 6px;
+  color: var(--ink-2);
+}
+
+.foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  max-width: 560px;
+  align-content: flex-start;
+}
+
+.foot-links a {
   font-size: 13px;
   color: var(--ink);
-}
-
-.footer-grid ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.footer-grid li {
-  margin: 0 0 10px;
-}
-
-.footer-grid a {
   text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
 }
 
-.footer-grid a:hover {
-  text-decoration: underline;
-  color: var(--ink);
+.foot-links a:hover {
+  border-color: var(--accent);
 }
 
-.footer-base {
+.foot-base {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px;
   padding-top: 20px;
-}
-
-.footer-base a {
-  text-decoration: none;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
 }
 
 /* Mobile sticky call to action */
@@ -1111,7 +1157,7 @@ p {
     gap: 10px;
     padding: 10px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(248, 243, 235, 0.92);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     box-shadow: var(--shadow);
@@ -1172,14 +1218,6 @@ p {
   .packages {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  .footer-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .footer-grid > :first-child {
-    grid-column: 1 / -1;
-  }
 }
 
 @media (max-width: 720px) {
@@ -1219,10 +1257,6 @@ p {
   .approach li {
     grid-template-columns: 1fr;
     gap: 6px;
-  }
-
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
   }
 
   .faq summary {
@@ -1354,7 +1388,7 @@ p {
   height: 20px;
   border-radius: 6px;
   border: 2px solid #b8b8bf;
-  background: #fff;
+  background: var(--white);
 }
 
 .choice.radio::before {
@@ -1363,7 +1397,7 @@ p {
 
 .choice:has(input:checked) {
   border-color: var(--brand);
-  background: #fff;
+  background: var(--white);
 }
 
 .choice:has(input:checked)::before {
@@ -1414,7 +1448,7 @@ p {
   padding: 14px 16px;
   border-radius: var(--radius-sm);
   border: 1.5px solid var(--line);
-  background: #fff;
+  background: var(--white);
   transition: border-color 0.15s;
 }
 
@@ -1551,4 +1585,394 @@ p {
 
 .form-nav > span:empty + .btn {
   margin-left: auto;
+}
+
+/* Homepage (original hamzury arrangement) */
+
+.h-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(56px, 8vw, 104px) 0 clamp(56px, 7vw, 88px);
+}
+
+.h-hero::before {
+  content: '';
+  position: absolute;
+  width: 760px;
+  height: 760px;
+  right: -180px;
+  top: -260px;
+  background: radial-gradient(closest-side, rgba(185, 151, 112, 0.22), transparent 70%);
+  pointer-events: none;
+}
+
+.h-hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: center;
+}
+
+.h-hero h1 {
+  font-size: clamp(48px, 6.4vw, 88px);
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+
+.h-hero h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.h-hero-lead {
+  max-width: 520px;
+  margin-top: 30px;
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+.h-hero .actions {
+  gap: 12px;
+}
+
+.h-hero-note {
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.h-method {
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--brand);
+  border-radius: 8px;
+  padding: 30px 32px 18px;
+  box-shadow: var(--shadow);
+}
+
+.h-method ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.h-method li {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 4px 14px;
+  padding: 16px 0 16px 12px;
+  margin-left: -12px;
+  border-bottom: 1px solid var(--line);
+  border-left: 2px solid transparent;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+
+.h-method li:last-child {
+  border-bottom: 0;
+}
+
+.h-method li:hover {
+  border-left-color: var(--gold);
+  background: linear-gradient(90deg, rgba(185, 151, 112, 0.08), transparent 70%);
+}
+
+.h-method-n {
+  font-size: 11px;
+  color: #8b7258;
+  padding-top: 6px;
+}
+
+.h-method strong {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--brand);
+}
+
+.h-method li p {
+  grid-column: 2;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .h-method li {
+    opacity: 0;
+    transform: translateX(10px);
+    animation: method-in 0.5s ease forwards;
+    animation-delay: calc(0.25s + var(--i) * 0.09s);
+  }
+
+  .js .h-hero-copy > * {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: copy-in 0.7s ease forwards;
+  }
+
+  .js .h-hero-copy > :nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  .js .h-hero-copy > :nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  .js .h-hero-copy > :nth-child(4) {
+    animation-delay: 0.24s;
+  }
+  .js .h-hero-copy > :nth-child(5) {
+    animation-delay: 0.32s;
+  }
+}
+
+@keyframes method-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes copy-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.h-section {
+  border-top: 1px solid var(--line);
+  padding: clamp(56px, 7vw, 88px) 0;
+}
+
+.h-head {
+  margin-bottom: 34px;
+}
+
+.h-head h2,
+.h-two h2 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  letter-spacing: -0.03em;
+}
+
+.h-ventures {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.h-venture {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  padding: 28px 26px 24px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  text-decoration: none;
+  overflow: hidden;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s,
+    border-color 0.25s;
+}
+
+.h-venture::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  background: var(--c);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.h-venture:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: transparent;
+}
+
+.h-venture:hover::after {
+  transform: scaleX(1);
+}
+
+.h-venture img {
+  align-self: flex-start;
+  max-width: 150px;
+  max-height: 36px;
+  object-fit: contain;
+  object-position: left;
+  margin-bottom: 20px;
+}
+
+.h-venture p {
+  font-size: 15px;
+  color: var(--ink-2);
+  margin-bottom: 22px;
+}
+
+.h-explore {
+  margin-top: auto;
+  font-size: 14px;
+  color: var(--brand);
+}
+
+.h-venture:hover .arrow,
+.h-story:hover .arrow {
+  transform: translateX(4px);
+}
+
+.h-two {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+
+.h-body {
+  margin-top: 22px;
+  max-width: 520px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ink-2);
+}
+
+.h-people {
+  position: relative;
+  min-height: 320px;
+  border-radius: 8px;
+  overflow: hidden;
+  background:
+    linear-gradient(to top, rgba(43, 26, 18, 0.92) 0%, rgba(43, 26, 18, 0.55) 38%, transparent 62%),
+    linear-gradient(135deg, #e9dccb, #d8c3a8);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 26px;
+}
+
+.h-mosaic {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.h-mosaic span {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--brand);
+  background: rgba(255, 253, 249, 0.72);
+  border-radius: 6px;
+  padding: 10px 10px 10px 22px;
+  position: relative;
+}
+
+.h-mosaic span::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.h-people-caption span {
+  display: block;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  color: #fffdf9;
+}
+
+.h-people-caption p {
+  margin-top: 6px;
+  font-size: 13px;
+  max-width: 340px;
+  color: #eadfd2;
+}
+
+.h-stories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.h-story {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 26px 24px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  text-decoration: none;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s;
+}
+
+.h-story:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+.h-story h2 {
+  font-size: 26px;
+  letter-spacing: -0.02em;
+}
+
+.h-story p {
+  margin: 14px 0 26px;
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+@media (max-width: 1000px) {
+  .h-hero-grid,
+  .h-two {
+    grid-template-columns: 1fr;
+  }
+
+  .h-ventures,
+  .h-stories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .h-ventures,
+  .h-stories,
+  .h-mosaic {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .h-ventures,
+  .h-stories {
+    grid-template-columns: 1fr;
+  }
+
+  .h-method {
+    padding: 24px 22px 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* The hero button and the sticky bar already offer "find my next step" on phones. */
+  .nav .btn-sm {
+    display: none;
+  }
+
+  .sticky-cta .btn {
+    white-space: nowrap;
+    padding: 0 14px;
+    font-size: 15px;
+  }
 }

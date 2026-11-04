@@ -16,7 +16,7 @@
     const [page, arg, mode] = path.split('/');
     if (!page || page === 'home') return '/';
     if (page === 'about') return '/about';
-    if (['portfolio', 'voices', 'resources'].includes(page)) return '/';
+    if (['portfolio', 'voices', 'resources'].includes(page)) return '/' + page;
     if (page === 'venture-page') {
       const id = ids[decodeURIComponent(arg || '')];
       return id ? '/services/' + id : '/services';

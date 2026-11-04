@@ -1,68 +1,44 @@
 import Link from 'next/link';
-import { hours, links, ventures } from '@/lib/site';
+import { hours, links } from '@/lib/site';
+
+const footerLinks: [string, string, boolean?][] = [
+  ['/about', 'who we are'],
+  ['/services', 'services'],
+  ['/portfolio', 'portfolio'],
+  ['/voices', 'what people say'],
+  ['/resources', 'reports & resources'],
+  [links.track, 'check my progress'],
+  [links.desk, 'contact us ↗', true],
+  ['https://ridli.org', 'ridli.org ↗', true],
+  [links.workspace, 'workspace'],
+];
 
 export default function Footer() {
   return (
     <footer className="site-footer">
-      <div className="wrap">
-        <div className="footer-grid">
-          <div>
-            <img src="/assets/hamzury.png" alt="Hamzury" width={115} height={20} />
-            <p>Six specialist teams. One clear plan for your business.</p>
-          </div>
-          <div>
-            <h4>Services</h4>
-            <ul>
-              {ventures.map((v) => (
-                <li key={v.id}>
-                  <Link href={`/services/${v.id}`}>{v.category}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h4>Company</h4>
-            <ul>
-              <li>
-                <Link href="/about">About Hamzury</Link>
-              </li>
-              <li>
-                <Link href="/#how">How it works</Link>
-              </li>
-              <li>
-                <Link href="/contact">Contact</Link>
-              </li>
-              <li>
-                <a href="https://ridli.org" target="_blank" rel="noopener">
-                  ridli.org ↗
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4>Clients</h4>
-            <ul>
-              <li>
-                <Link href={links.start}>Get started</Link>
-              </li>
-              <li>
-                <a href={links.track}>Track my project</a>
-              </li>
-              <li>
-                <a href={links.desk} target="_blank" rel="noopener">
-                  Contact desk ↗
-                </a>
-              </li>
-              <li>
-                <a href={links.workspace}>Staff workspace</a>
-              </li>
-            </ul>
-          </div>
+      <div className="wrap foot">
+        <div>
+          <img src="/assets/hamzury.png" alt="hamzury holding" width={138} height={24} />
+          <span className="foot-method">awareness / strategy / structure / systems / success</span>
+          <p>one institution. specialist support. clear next steps.</p>
         </div>
-        <div className="footer-base">
-          <span>© {new Date().getFullYear()} Hamzury Holding. All rights reserved.</span>
-          <span>{hours}</span>
-        </div>
+        <nav className="foot-links" aria-label="Footer">
+          {footerLinks.map(([href, label, external]) =>
+            external || href.startsWith('/app.html') ? (
+              <a key={label} href={href} {...(external && { target: '_blank', rel: 'noopener' })}>
+                {label}
+              </a>
+            ) : (
+              <Link key={label} href={href}>
+                {label}
+              </Link>
+            ),
+          )}
+        </nav>
+      </div>
+      <div className="wrap foot-base">
+        <span>© {new Date().getFullYear()} hamzury holding</span>
+        <span>{hours.toLowerCase()}</span>
       </div>
     </footer>
   );

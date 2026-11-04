@@ -1,152 +1,153 @@
 import Link from 'next/link';
-import {
-  Cta,
-  Faq,
-  Icons,
-  Logos,
-  RoadmapMock,
-  SectionHead,
-  Steps,
-  UpdateMock,
-  VentureTiles,
-} from '@/components/Sections';
-import { links } from '@/lib/site';
+import type { CSSProperties } from 'react';
+import { links, ventures } from '@/lib/site';
 
-const features = [
-  {
-    icon: Icons.people,
-    title: 'One partner, six specialists',
-    text: 'Registration, branding, software, smart hardware, training and funding, all coordinated so nothing falls between the cracks.',
-  },
-  {
-    icon: Icons.document,
-    title: 'Clear before you commit',
-    text: 'You see the scope, timeline and price in writing before you pay. Third-party fees are listed separately. No surprises.',
-  },
-  {
-    icon: Icons.clock,
-    title: 'Never left wondering',
-    text: 'You hear from us at least every 48 hours: what’s done, what’s happening and anything we need from you.',
-  },
-  {
-    icon: Icons.check,
-    title: 'Only what you need',
-    text: 'We check what you already have and what actually applies to you. Nothing is recommended just to fill a package.',
-  },
+// Homepage follows the original hamzury layout and lowercase voice:
+// hero + assss approach, venture grid, who we are, then portfolio / voices / resources.
+
+const method: [string, string][] = [
+  ['awareness', 'understand the situation'],
+  ['strategy', 'choose the direction'],
+  ['structure', 'put the essentials in place'],
+  ['systems', 'make the work repeatable'],
+  ['success', 'review the result and next step'],
 ];
+
+const stories: [string, string, string][] = [
+  [
+    '/portfolio',
+    'work with a story',
+    'see the situation, approach, delivery and verified outcome.',
+  ],
+  ['/voices', 'what people say', 'client and learner experiences, published with permission.'],
+  [
+    '/resources',
+    'reports & useful thinking',
+    'read our guidance, reports and downloadable resources.',
+  ],
+];
+
+const Arrow = () => <span className="arrow">→</span>;
 
 export default function Home() {
   return (
-    <>
-      <section className="hero">
-        <div className="wrap">
-          <span className="eyebrow">Hamzury Holding</span>
-          <h1>
-            Your business,
-            <br />
-            put together.
-          </h1>
-          <p className="lead">
-            Registration, branding, software, training and funding support, planned around your
-            goals and delivered by one team of specialists.
-          </p>
-          <div className="actions center">
-            <Link className="btn" href={links.start}>
-              Get started
-            </Link>
-            <Link className="link" href="#how">
-              See how it works
-            </Link>
+    <div className="home">
+      <section className="h-hero">
+        <div className="wrap h-hero-grid">
+          <div className="h-hero-copy">
+            <span className="eyebrow">hamzury holding / business architecture</span>
+            <h1>
+              understand it.
+              <br />
+              put it together.
+              <br />
+              <em>move forward.</em>
+            </h1>
+            <p className="h-hero-lead">
+              a few thoughtful questions. a clearer understanding of your business. a practical next
+              step you can choose with confidence.
+            </p>
+            <div className="actions">
+              <Link className="btn" href={links.start}>
+                find my next step <Arrow />
+              </Link>
+              <a className="btn secondary" href={links.track}>
+                check my progress <Arrow />
+              </a>
+            </div>
+            <p className="h-hero-note">
+              questions that clarify. recommendations that explain. work you can follow.
+            </p>
           </div>
-          <p className="note">Answer a few questions. Get a clear plan. No commitment.</p>
-          <div className="hero-visual reveal">
-            <RoadmapMock />
+
+          <aside className="h-method" aria-label="the assss approach">
+            <span className="eyebrow">the assss approach</span>
+            <ol>
+              {method.map(([name, text], i) => (
+                <li key={name} style={{ '--i': i } as CSSProperties}>
+                  <span className="h-method-n">0{i + 1}</span>
+                  <strong>{name}</strong>
+                  <p>{text}</p>
+                </li>
+              ))}
+            </ol>
+          </aside>
+        </div>
+      </section>
+
+      <section className="h-section">
+        <div className="wrap">
+          <div className="h-head reveal">
+            <span className="eyebrow">different expertise. one business. yours.</span>
+            <h2>choose the support you want to explore.</h2>
           </div>
-        </div>
-      </section>
-
-      <section className="section alt slim" aria-label="Our ventures">
-        <div className="wrap">
-          <p className="small" style={{ textAlign: 'center', marginBottom: 28 }}>
-            Six specialist teams under one roof
-          </p>
-          <Logos />
-        </div>
-      </section>
-
-      <section className="section" id="services">
-        <div className="wrap">
-          <SectionHead
-            eyebrow="What we do"
-            title="Everything your business needs. In one place."
-            lead="Pick a single service or let us plan the full journey. Either way, every team works from the same plan."
-          />
-          <VentureTiles />
-        </div>
-      </section>
-
-      <section className="section alt" id="how">
-        <div className="wrap">
-          <SectionHead
-            eyebrow="How it works"
-            title="Simple from the first question."
-            lead="You always know what happens next, what it costs and who is on it."
-          />
-          <Steps />
-          <div className="actions center">
-            <Link className="btn" href={links.start}>
-              Start with a few questions
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="wrap">
-          <SectionHead eyebrow="Why Hamzury" title="Clarity at every step." />
-          <div className="features">
-            {features.map((f) => (
-              <div className="feature reveal" key={f.title}>
-                {f.icon}
-                <h3>{f.title}</h3>
-                <p>{f.text}</p>
-              </div>
+          <div className="h-ventures">
+            {ventures.map((v) => (
+              <Link
+                key={v.id}
+                href={`/services/${v.id}`}
+                className="h-venture reveal"
+                style={{ '--c': v.color } as CSSProperties}
+              >
+                <img src={v.logo} alt={v.name} loading="lazy" />
+                <p>{v.mandate}</p>
+                <span className="h-explore">
+                  explore {v.name} <Arrow />
+                </span>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section band">
-        <div className="wrap split">
+      <section className="h-section">
+        <div className="wrap h-two">
           <div className="reveal">
-            <span className="eyebrow">Your client portal</span>
-            <h2>Always know where things stand.</h2>
-            <p className="lead">
-              Use your client reference to see your plan, what’s finished, what’s next and anything
-              we need from you, at any time.
+            <span className="eyebrow">who we are</span>
+            <h2>
+              people working together.
+              <br />
+              businesses moving forward.
+            </h2>
+            <p className="h-body">
+              hamzury holding connects specialist ventures, practical learning and business support.
+              our shared method brings a clear reason and next action to the work.
             </p>
             <div className="actions">
-              <a className="btn light" href={links.track}>
-                Track my project
-              </a>
+              <Link className="btn secondary" href="/about">
+                meet hamzury <Arrow />
+              </Link>
             </div>
           </div>
-          <UpdateMock />
+          <div className="h-people reveal" aria-label="six ventures, one shared method">
+            <div className="h-mosaic" aria-hidden="true">
+              {ventures.map((v) => (
+                <span key={v.id} style={{ '--c': v.color } as CSSProperties}>
+                  {v.name}
+                </span>
+              ))}
+            </div>
+            <div className="h-people-caption">
+              <span>the people behind the work</span>
+              <p>six specialist ventures. one shared method. one team working on your next step.</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="section alt">
-        <div className="wrap">
-          <SectionHead eyebrow="Questions" title="Good to know." />
-          <Faq />
+      <section className="h-section">
+        <div className="wrap h-stories">
+          {stories.map(([href, title, text]) => (
+            <Link key={href} href={href} className="h-story reveal">
+              <h2>{title}</h2>
+              <p>{text}</p>
+              <span className="h-explore">
+                explore <Arrow />
+              </span>
+            </Link>
+          ))}
         </div>
       </section>
-
-      <Cta
-        alt={false}
-        title="Your next step starts here."
-        lead="Tell us about your business. We’ll come back with a clear, practical plan."
-      />
-    </>
+    </div>
   );
 }

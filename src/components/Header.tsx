@@ -6,10 +6,9 @@ import { useEffect, useState } from 'react';
 import { links } from '@/lib/site';
 
 const nav = [
-  { href: '/services', label: 'Services' },
-  { href: '/#how', label: 'How it works' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/about', label: 'who we are' },
+  { href: '/services', label: 'services' },
+  { href: '/contact', label: 'contact us' },
 ];
 
 export default function Header() {
@@ -31,26 +30,24 @@ export default function Header() {
       <header className="site-header">
         <div className="wrap nav">
           <Link className="nav-logo" href="/">
-            <img src="/assets/hamzury.png" alt="Hamzury home" width={127} height={22} />
+            <img src="/assets/hamzury.png" alt="hamzury holding home" width={150} height={26} />
           </Link>
           <nav className={`nav-links${open ? ' open' : ''}`} id="nav-links" aria-label="Main">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                aria-current={
-                  pathname.startsWith(item.href) && item.href !== '/#how' ? 'page' : undefined
-                }
+                aria-current={pathname.startsWith(item.href) ? 'page' : undefined}
                 onClick={() => setOpen(false)}
               >
                 {item.label}
               </Link>
             ))}
-            <a href={links.track}>Track my project</a>
+            <a href={links.track}>check my progress</a>
           </nav>
           {pathname !== '/start' && (
             <Link className="btn btn-sm" href={links.start}>
-              Get started
+              find my next step <span className="arrow">→</span>
             </Link>
           )}
           <button

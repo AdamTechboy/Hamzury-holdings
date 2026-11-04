@@ -49,10 +49,10 @@ export function StickyCta() {
   return (
     <div className={`sticky-cta${show ? ' show' : ''}`} aria-hidden={!show}>
       <Link className="btn" href={links.start} tabIndex={show ? 0 : -1}>
-        Get started
+        my next step →
       </Link>
       <a className="btn ghost" href={links.track} tabIndex={show ? 0 : -1}>
-        Track project
+        my progress
       </a>
     </div>
   );

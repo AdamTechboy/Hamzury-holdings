@@ -6,6 +6,8 @@ export type Venture = {
   logo: string;
   color: string;
   category: string;
+  /** Original lowercase one-line mandate, used on the homepage. */
+  mandate: string;
   headline: string;
   summary: string;
   points: string[];
@@ -30,6 +32,7 @@ export const ventures: Venture[] = [
     logo: '/assets/bizdoc.png',
     color: '#18875b',
     category: 'Registration & compliance',
+    mandate: 'documents, tax & compliance',
     headline: 'Get registered. Get bank‑ready. Stay compliant.',
     summary:
       'From company registration to tax and the documents your bank asks for, bizdoc works out what applies to your business and handles it with you.',
@@ -45,6 +48,7 @@ export const ventures: Venture[] = [
     logo: '/assets/medialy.png',
     color: '#c63645',
     category: 'Branding & marketing',
+    mandate: 'branding, marketing & conversion',
     headline: 'Look the part. Win more customers.',
     summary:
       'medialy shapes how your business presents itself, then builds the content, campaigns and follow-up that turn interest into sales.',
@@ -60,6 +64,7 @@ export const ventures: Venture[] = [
     logo: '/assets/subt.png',
     color: '#2466bf',
     category: 'Websites, software & automation',
+    mandate: 'software, automation & workflows',
     headline: 'Simple systems that run your business.',
     summary:
       'subt sets up proven software for your kind of business, from your Google profile and website to enquiry tracking and workflow automation.',
@@ -75,6 +80,7 @@ export const ventures: Venture[] = [
     logo: '/assets/iotics.png',
     color: '#a0780d',
     category: 'Smart spaces & hardware',
+    mandate: 'smart spaces, robotics & hardware',
     headline: 'Put technology to work in the real world.',
     summary:
       'iotics looks at physical tasks where smart devices, IoT or robotics can genuinely help, then plans, installs and maintains what makes sense.',
@@ -90,6 +96,7 @@ export const ventures: Venture[] = [
     logo: '/assets/hub.png',
     color: '#14233b',
     category: 'Training & skills',
+    mandate: 'practical skills & business training',
     headline: 'Skills your team will actually use.',
     summary:
       'hamzury hub runs practical, supervised training for owners, staff and new talent, built around the tools and work in front of you.',
@@ -105,6 +112,7 @@ export const ventures: Venture[] = [
     logo: '/assets/iwiin.png',
     color: '#355c21',
     category: 'Grants & partnerships',
+    mandate: 'grants, partnerships & opportunities',
     headline: 'Be ready when the right opportunity comes.',
     summary:
       'iwiin finds the grants, funding and partnerships that suit your organisation and helps you prepare strong applications. Awards are never guaranteed, but you will be ready.',
