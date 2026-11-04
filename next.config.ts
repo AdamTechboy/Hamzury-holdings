@@ -1,6 +1,9 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  // Pin the project root so Next.js doesn't pick up stray lockfiles in parent folders.
+  turbopack: { root: import.meta.dirname },
+  outputFileTracingRoot: import.meta.dirname,
   // Old static page URLs (from before the Next.js move) keep working.
   async redirects() {
     return [
