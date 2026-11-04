@@ -27,3 +27,4 @@
 - Upload requested documents (e.g. proof of identity, business registration, design assets).
 - Review and accept itemized quotations.
 - Request support or explore "Your Next Business Move" recommendations.
+

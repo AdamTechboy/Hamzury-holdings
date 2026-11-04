@@ -83,3 +83,4 @@ export const VENTURES: Record<string, VentureInfo> = {
     color: '#6366f1'
   }
 }
+

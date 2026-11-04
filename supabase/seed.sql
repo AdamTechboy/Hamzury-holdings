@@ -129,3 +129,4 @@ ON CONFLICT (code) DO UPDATE SET
     scope = EXCLUDED.scope,
     deliverable = EXCLUDED.deliverable,
     requirements = EXCLUDED.requirements;
+

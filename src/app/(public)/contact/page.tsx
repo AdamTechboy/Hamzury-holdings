@@ -1,83 +1,209 @@
-import { notFound } from 'next/navigation'
-import Link from 'next/link'
+'use client'
+
+import { useState } from 'react'
 import { VENTURES } from '@/types'
 
-export function generateStaticParams() {
-  return Object.keys(VENTURES).map((slug) => ({ slug }))
-}
+export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    organisationName: '',
+    departmentSlug: 'bizdoc',
+    serviceCode: 'b1',
+    description: '',
+    botTrap: ''
+  })
 
-export default function VenturePage({ params }: { params: { slug: string } }) {
-  const venture = VENTURES[params.slug]
-  if (!venture) notFound()
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<{
+    success: boolean
+    leadReference?: string
+    whatsappLink?: string
+    message?: string
+  } | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
+
+    try {
+      const res = await fetch('/api/public/enquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+
+      const data = await res.json()
+      if (!res.ok) {
+        setError(data.error || 'Failed to submit inquiry')
+      } else {
+        setResult(data)
+      }
+    } catch {
+      setError('A network error occurred. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
-    <div className="max-w-5xl mx-auto py-12 px-4 sm:px-6 space-y-12">
-      <div className="space-y-4">
-        <Link href="/" className="text-xs text-blue-400 hover:underline">
-          ← Back to Holding Overview
-        </Link>
-        <div className="flex items-center gap-3">
-          <span className="w-4 h-4 rounded-full" style={{ backgroundColor: venture.color }} />
-          <h1 className="text-3xl font-extrabold text-white">{venture.name}</h1>
-        </div>
-        <p className="text-lg text-blue-300 font-medium">{venture.tagline}</p>
-        <p className="text-slate-300 max-w-3xl leading-relaxed">{venture.description}</p>
+    <div className="max-w-2xl mx-auto py-12 px-4 sm:px-6">
+      <div className="text-center space-y-3 mb-8">
+        <h1 className="text-3xl font-bold text-white">Service Assessment & Enquiry</h1>
+        <p className="text-sm text-slate-300">
+          Connect directly with the specialized venture team best aligned with your operational stage.
+        </p>
       </div>
 
-      {/* Venture Service Architecture */}
-      <div className="space-y-6">
-        <h2 className="text-xl font-bold text-white border-b border-[#1e3a63] pb-3">
-          Service Roadmap & Tiers
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-5 rounded-lg bg-[#0c1e38] border border-[#1e3a63] space-y-2">
-            <span className="text-xs font-mono uppercase text-blue-400">Level 0 • Discovery & Essentials</span>
-            <h3 className="font-bold text-white">Initial Needs & Feasibility</h3>
-            <p className="text-xs text-slate-300">
-              Rapid assessment, compliance/branding audit, or starter setup to qualify scope.
-            </p>
+      {result?.success ? (
+        <div className="p-8 rounded-xl bg-emerald-950/40 border border-emerald-500/40 space-y-4 text-center">
+          <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-xl font-bold">
+            ✓
           </div>
-
-          <div className="p-5 rounded-lg bg-[#0c1e38] border border-[#1e3a63] space-y-2">
-            <span className="text-xs font-mono uppercase text-purple-400">Level 1 • Core Implementation</span>
-            <h3 className="font-bold text-white">Full Service Execution</h3>
-            <p className="text-xs text-slate-300">
-              End-to-end delivery of approved corporate documentation, design kit, or digital system.
-            </p>
+          <h2 className="text-xl font-bold text-white">Enquiry Received Successfully</h2>
+          <p className="text-sm text-slate-300">{result.message}</p>
+          <div className="p-3 bg-slate-900 rounded border border-slate-800 text-xs font-mono text-emerald-300">
+            Reference: {result.leadReference}
           </div>
-
-          <div className="p-5 rounded-lg bg-[#0c1e38] border border-[#1e3a63] space-y-2">
-            <span className="text-xs font-mono uppercase text-emerald-400">Level 2 • Workflow & Governance</span>
-            <h3 className="font-bold text-white">System Integration</h3>
-            <p className="text-xs text-slate-300">
-              Recurring governance routines, automated pipelines, and team capability adoption.
-            </p>
-          </div>
-
-          <div className="p-5 rounded-lg bg-[#0c1e38] border border-[#1e3a63] space-y-2">
-            <span className="text-xs font-mono uppercase text-amber-400">Level 3 • Scale & Expansion</span>
-            <h3 className="font-bold text-white">Multi-Team Growth</h3>
-            <p className="text-xs text-slate-300">
-              Strategic partnerships, multi-location installations, and long-term retention.
-            </p>
-          </div>
+          {result.whatsappLink && (
+            <div className="pt-4">
+              <a
+                href={result.whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm transition"
+              >
+                Continue on WhatsApp →
+              </a>
+            </div>
+          )}
         </div>
-      </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="p-6 rounded-xl bg-[#0c1e38] border border-[#1e3a63] space-y-4">
+          {error && (
+            <div className="p-3 rounded bg-red-950/50 border border-red-500/50 text-red-300 text-xs">
+              {error}
+            </div>
+          )}
 
-      {/* Action CTA */}
-      <div className="p-6 rounded-xl bg-blue-950/40 border border-blue-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div>
-          <h3 className="text-lg font-bold text-white">Ready to begin with {venture.name}?</h3>
-          <p className="text-xs text-slate-300">Submit an assessment inquiry to receive quotation options.</p>
-        </div>
-        <Link
-          href={`/contact?venture=${venture.slug}`}
-          className="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm transition"
-        >
-          Submit Inquiry →
-        </Link>
-      </div>
+          {/* Honeypot field for bot protection */}
+          <input
+            type="text"
+            name="botTrap"
+            value={formData.botTrap}
+            onChange={(e) => setFormData({ ...formData, botTrap: e.target.value })}
+            className="hidden"
+            tabIndex={-1}
+            autoComplete="off"
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-slate-300 mb-1">Full Name *</label>
+              <input
+                required
+                type="text"
+                value={formData.fullName}
+                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                className="w-full px-3 py-2 rounded bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+                placeholder="Adam Haruna"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-slate-300 mb-1">Email Address *</label>
+              <input
+                required
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="w-full px-3 py-2 rounded bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+                placeholder="adam@example.com"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-slate-300 mb-1">Phone Number (WhatsApp) *</label>
+              <input
+                required
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="w-full px-3 py-2 rounded bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+                placeholder="+234..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-slate-300 mb-1">Organization / Business</label>
+              <input
+                type="text"
+                value={formData.organisationName}
+                onChange={(e) => setFormData({ ...formData, organisationName: e.target.value })}
+                className="w-full px-3 py-2 rounded bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+                placeholder="Company Name Ltd."
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-slate-300 mb-1">Responsible Venture</label>
+              <select
+                value={formData.departmentSlug}
+                onChange={(e) => setFormData({ ...formData, departmentSlug: e.target.value })}
+                className="w-full px-3 py-2 rounded bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              >
+                {Object.values(VENTURES).map((v) => (
+                  <option key={v.slug} value={v.slug}>
+                    {v.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-slate-300 mb-1">Service Tier</label>
+              <select
+                value={formData.serviceCode}
+                onChange={(e) => setFormData({ ...formData, serviceCode: e.target.value })}
+                className="w-full px-3 py-2 rounded bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              >
+                <option value="b1">Level 0: Essentials & Feasibility</option>
+                <option value="b2">Level 1: Core Execution</option>
+                <option value="b3">Level 2: Systems & Governance</option>
+                <option value="b4">Level 3: Scale & Expansion</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-slate-300 mb-1">Needs & Context Details *</label>
+            <textarea
+              required
+              rows={4}
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              className="w-full px-3 py-2 rounded bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              placeholder="Please describe your current operational requirements or the challenges you are addressing..."
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-semibold text-sm transition"
+          >
+            {loading ? 'Submitting...' : 'Submit Enquiry'}
+          </button>
+        </form>
+      )}
     </div>
   )
 }
+

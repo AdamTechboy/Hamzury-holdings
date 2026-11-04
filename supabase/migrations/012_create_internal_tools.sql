@@ -41,3 +41,4 @@ CREATE INDEX IF NOT EXISTS idx_resource_category ON public.resource_items(catego
 CREATE INDEX IF NOT EXISTS idx_resource_tags ON public.resource_items USING GIN(tags);
 CREATE INDEX IF NOT EXISTS idx_accounts_dept ON public.account_access_records(department_id);
 CREATE INDEX IF NOT EXISTS idx_accounts_responsible ON public.account_access_records(responsible_user_id);
+

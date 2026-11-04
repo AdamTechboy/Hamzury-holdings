@@ -8,3 +8,4 @@ export async function GET() {
     version: '2.0.0'
   })
 }
+

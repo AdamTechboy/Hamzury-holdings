@@ -28,3 +28,4 @@ export function canAccessAccountRegister(role: UserRole): boolean {
 export function canManageQuotations(role: UserRole): boolean {
   return isHoldingStaff(role) || role === 'finance' || role === 'department_manager' || role === 'crm_manager'
 }
+

@@ -104,3 +104,4 @@ CREATE INDEX IF NOT EXISTS idx_support_tickets_cust ON public.support_tickets(cu
 CREATE INDEX IF NOT EXISTS idx_support_tickets_status ON public.support_tickets(status);
 CREATE INDEX IF NOT EXISTS idx_renewals_date ON public.renewals(renewal_date);
 CREATE INDEX IF NOT EXISTS idx_audit_entity ON public.audit_logs(entity_name, entity_id);
+

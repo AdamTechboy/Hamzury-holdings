@@ -214,3 +214,4 @@ CREATE POLICY "Clients can create support tickets" ON public.support_tickets
 
 CREATE POLICY "Users view own notifications" ON public.notifications
     FOR ALL USING (user_id = auth.uid());
+

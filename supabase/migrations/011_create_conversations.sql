@@ -41,3 +41,4 @@ CREATE INDEX IF NOT EXISTS idx_conversations_customer ON public.conversations(cu
 CREATE INDEX IF NOT EXISTS idx_conversations_lead ON public.conversations(lead_id);
 CREATE INDEX IF NOT EXISTS idx_conv_messages_conv ON public.conversation_messages(conversation_id);
 CREATE INDEX IF NOT EXISTS idx_notifications_user ON public.notifications(user_id, is_read);
+
