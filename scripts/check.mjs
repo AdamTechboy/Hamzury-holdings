@@ -1,9 +1,9 @@
-// Quick sanity check: every script parses and every file a page links to exists.
+// Sanity check for the legacy app in public/: every script parses and every local file a page links to exists.
 import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const SRC = 'src';
+const SRC = 'public';
 let failed = false;
 
 for (const file of readdirSync(join(SRC, 'scripts'))) {

@@ -1,21 +1,43 @@
 # Architecture
 
-The site is plain HTML, CSS and JavaScript with no framework. Scripts are classic `<script>` tags (not ES modules) that share global variables, so **load order matters**.
+Two parts live in this repo:
 
-## Corporate site: index, services, venture, about, contact
+1. **The website** (`src/`): Next.js App Router, React and TypeScript. Public pages, plus the `/start` enquiry form backed by Supabase.
+2. **The legacy app** (`public/`): the original plain-JavaScript client journey and staff workspace, served as static files at `/app.html` and `/operations.html`. It is being replaced phase by phase.
 
-Plain pages sharing `styles/site.css`, `scripts/site-data.js` and `scripts/site.js`. They are separate from the app, and the override chain below does not apply to them.
+## Website (src/)
 
-- **Copy lives in `site-data.js`**: venture names, headlines, summaries, the four steps, FAQs, working hours and every link into the app (`SITE.links`).
-- **Packages on venture pages** come from `seed.js` (`window.offerSeed`), the same offers the app uses.
-- `site.js` injects the header and footer, fills each `data-render="<name>"` element (`tiles`, `logos`, `steps`, `faq`, `chips`, `services`, `venture`) and sets `href` on each `data-link="<key>"` element from `SITE.links`.
-- Calls to action go into the app: `app.html#form/general/new` (start), `app.html#form/<form>/new?source=<venture> website` (start with one venture), `app.html#access` (track a project).
+| Path                         | What it is                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------- |
+| `app/layout.tsx`             | Shell for every page: header, footer, phone sticky call-to-action, scroll fades |
+| `app/page.tsx`               | Homepage                                                                        |
+| `app/services/page.tsx`      | All six ventures                                                                |
+| `app/services/[id]/page.tsx` | One venture with its packages; pre-rendered for each id in `lib/site.ts`        |
+| `app/about`, `app/contact`   | About and contact pages                                                         |
+| `app/start/StartForm.tsx`    | Four-step enquiry form (client component)                                       |
+| `app/start/actions.ts`       | Server action: validate, save, notify, return a reference                       |
+| `components/Sections.tsx`    | Shared sections: tiles, steps, FAQ, call-to-action, example roadmap cards       |
+| `components/Header.tsx`      | Navigation and mobile menu                                                      |
+| `components/Motion.tsx`      | `RevealObserver` (fade-in on scroll) and `StickyCta`                            |
+| `lib/site.ts`                | **All site copy**: ventures, steps, FAQs, hours, links                          |
+| `lib/offers.ts`              | Packages per venture (copied from `public/scripts/seed.js`)                     |
+| `lib/enquiry.ts`             | Enquiry fields, options and validation (shared by form and server)              |
+| `lib/store.ts`               | Saves enquiries to Supabase (or `.data/` in local dev) and emails via Resend    |
+| `app/globals.css`            | The design system: colour tokens, type scale, components                        |
 
-## app.html: client journey and staff workspace
+**Styling.** One global stylesheet with CSS variables in `:root` (colours, radius, max width). Class names are shared with the components (`.btn`, `.tile`, `.section.alt`, ...). Add `.reveal` to any element to fade it in on scroll.
 
-`scripts/site-bridge.js` loads first and redirects the app's old public routes (`#home`, `#about`, `#venture-page/<v>`, and so on) to the corporate site.
+**Enquiries.** `StartForm` calls the `submitEnquiry` server action directly (no API route). The action checks a honeypot field, validates with `validateEnquiry`, saves with `saveEnquiry` and calls `notifyTeam`. The Supabase service-role key is only read on the server. The `enquiries` table has row level security on with no policies, so browsers can't read it. Schema: `supabase/migrations/0001_enquiries.sql`.
 
-Scripts load in this order. Each later script **replaces** functions defined by earlier ones (by reassigning the global, for example `render = function () { ... }`) and usually falls back to the previous version for routes it doesn't handle.
+**Links into the legacy app** are in `links` in `lib/site.ts`: `track` → `/app.html#access`, `workspace` → `/app.html#workspace`.
+
+## Legacy app (public/)
+
+`scripts/site-bridge.js` loads first in `app.html` and redirects the old public routes to the website: `#home` → `/`, `#about` → `/about`, `#venture-page/<v>` → `/services/<id>`, and new discovery forms (`#form/<x>/new`) → `/start`. Everything else (`#access`, `#client/...`, `#workspace`, staff views) runs as before.
+
+### app.html script chain
+
+Scripts are classic `<script>` tags sharing globals, so **load order matters**. Each later script **replaces** functions defined by earlier ones (by reassigning the global, for example `render = function () { ... }`) and usually falls back to the previous version for routes it doesn't handle.
 
 | Order | File              | Role                                                                                                                                                        | Replaces                                                                                                                                            |
 | ----- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -31,35 +53,23 @@ Scripts load in this order. Each later script **replaces** functions defined by 
 
 The **last** definition of a function is the one that runs. To change how a view behaves, search for its _latest_ definition first, e.g. `clientView` is finally defined in `cx.js`.
 
-Routing is hash-based: `#home`, `#client/<id>/<stage>`, `#crm`, `#task`, etc. `render()` reads `location.hash` and writes HTML into `#root`.
+Routing is hash-based: `#client/<id>/<stage>`, `#crm`, `#task`, etc. `render()` reads `location.hash` and writes HTML into `#root`.
 
-## operations.html: operating centre
+### operations.html
 
 | Order | File            | Role                                                                                  |
 | ----- | --------------- | ------------------------------------------------------------------------------------- |
 | 1     | `operations.js` | Base app: `$()` selector, `esc()` escaper, ventures, pages, `render`                  |
 | 2     | `experience.js` | Package catalogue, tiers, basket and proposals; replaces `render nav products client` |
 
-Uses localStorage keys `hh-shelf-v2`, `hh-basket-v2`, `hh-proposal-v2`.
+### Legacy data
 
-## Data
+Stored only in the visitor's browser: localStorage `hh-v3` (leads, forms, staff, ventures), `hh-form-*` and `hh-conversation-*` (in-progress answers), `hh-view-scope`, `hh-staff-step`, `hh-staff-draft`, `hh-shelf-v2`, `hh-basket-v2`, `hh-proposal-v2`, and IndexedDB `hh-demo-files` (uploads).
 
-Everything is stored in the visitor's browser:
+Always pass user-entered text through `E()` (app.html) or `esc()` (operations.html) before putting it into HTML.
 
-- `hh-v3`: main database (leads, forms, staff, ventures, ...)
-- `hh-form-*`, `hh-conversation-*`: in-progress answers
-- `hh-view-scope`, `hh-staff-step`, `hh-staff-draft`: staff UI state
-- IndexedDB `hh-demo-files`: uploaded files
+## Roadmap
 
-Clearing site data in the browser resets the app to its sample data.
-
-## Conventions
-
-- Always pass user-entered text through `E()` (index.html) or `esc()` (operations.html) before putting it into HTML.
-- Venture logos are loaded as `assets/<venture>.png` (`hamzury hub` uses `hub.png`).
-
-## Suggested next steps
-
-1. Merge each "replaces" chain into a single definition per function, then delete the superseded versions.
-2. Convert the scripts to ES modules so dependencies are explicit.
-3. Add a backend for shared data, accounts and permissions.
+1. **Done:** website on Next.js; enquiries saved to Supabase.
+2. **Client portal:** real client logins (Supabase Auth) and project tracking from the database, replacing `#access` and `#client/...`.
+3. **Staff workspace:** move views into Next.js one at a time (start with an enquiries inbox), then retire `public/app.html`.
