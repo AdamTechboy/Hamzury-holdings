@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact · Hamzury</title>
+    <meta
+      name="description"
+      content="Start with a few questions, track an existing project, or reach the Hamzury desk."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="stylesheet" href="styles/site.css" />
+  </head>
+  <body data-page="contact">
+    <main id="main">
+      <section class="page-hero">
+        <div class="wrap">
+          <span class="eyebrow">Contact</span>
+          <h1>Let’s talk about your business.</h1>
+          <p class="lead">Choose the option that fits. We’ll take it from there.</p>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top: 0">
+        <div class="wrap">
+          <div class="options">
+            <div class="option primary reveal">
+              <span class="tag">Recommended</span>
+              <h3>Start with a few questions</h3>
+              <p>
+                Tell us about your business and goals. Our team reviews your answers and recommends
+                a clear first step.
+              </p>
+              <a class="btn light" data-link="start" href="app.html">Get started</a>
+            </div>
+            <div class="option reveal">
+              <h3>Track a project</h3>
+              <p>Already working with us? Use your client reference to see progress and updates.</p>
+              <a class="btn ghost" data-link="track" href="app.html">Track my project</a>
+            </div>
+            <div class="option reveal">
+              <h3>Contact our desk</h3>
+              <p>
+                A question about a service, a partnership or something else? Reach our team
+                directly.
+              </p>
+              <a
+                class="btn ghost"
+                data-link="desk"
+                href="https://desk.hamzury.com"
+                target="_blank"
+                rel="noopener"
+                >Open contact desk ↗</a
+              >
+            </div>
+          </div>
+          <p class="notice">Working hours: <span data-hours></span></p>
+        </div>
+      </section>
+
+      <section class="section alt">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <span class="eyebrow">Questions</span>
+            <h2>Before you get in touch.</h2>
+          </div>
+          <div class="faq" data-render="faq"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="scripts/site-data.js"></script>
+    <script src="scripts/site.js"></script>
+    <script>
+      document.querySelector('[data-hours]').textContent = SITE.hours;
+    </script>
+  </body>
+</html>

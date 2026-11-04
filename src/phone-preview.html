@@ -57,7 +57,7 @@
         aria-label="preview screen"
         onchange="
           document.querySelector('iframe').src =
-            'index.html#' +
+            'app.html#' +
             (this.value.startsWith('admin:')
               ? this.value.slice(6)
               : 'client/HH-FLOW-001/' + this.value)
@@ -75,8 +75,8 @@
       </select></label
     ><iframe
       title="hamzury client journey on a phone"
-      src="index.html#client/HH-FLOW-001/reference"
+      src="app.html#client/HH-FLOW-001/reference"
     ></iframe
-    ><a href="index.html">open full site</a>
+    ><a href="app.html">open full app</a>
   </body>
 </html>

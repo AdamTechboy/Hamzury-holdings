@@ -17,7 +17,8 @@ for (const file of readdirSync(join(SRC, 'scripts'))) {
 
 for (const page of readdirSync(SRC).filter((f) => f.endsWith('.html'))) {
   const html = readFileSync(join(SRC, page), 'utf8');
-  for (const [, ref] of html.matchAll(/(?:src|href)="([^"#?:]+)/g)) {
+  // Local links only: skip external (https:, mailto:) and in-page (#) links.
+  for (const [, ref] of html.matchAll(/(?:src|href)="(?![a-z]+:)([^"#?]+)/g)) {
     if (!existsSync(join(SRC, ref))) {
       failed = true;
       console.error(`${page}: missing ${ref}`);
