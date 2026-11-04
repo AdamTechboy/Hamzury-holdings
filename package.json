@@ -1,0 +1,20 @@
+{
+  "name": "hamzury-holding",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hamzury Holding client journey and staff workspace",
+  "scripts": {
+    "dev": "node scripts/dev.mjs src 8000",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/dev.mjs dist 8001 --no-reload",
+    "format": "prettier --write src",
+    "format:check": "prettier --check src",
+    "check": "node scripts/check.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10"
+  }
+}
