@@ -1,0 +1,34 @@
+-- 009_create_project_tasks.sql
+-- Project tasks, milestones, and assignments
+
+CREATE TABLE IF NOT EXISTS public.project_tasks (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    project_id UUID NOT NULL REFERENCES public.projects(id) ON DELETE CASCADE,
+    assigned_to UUID REFERENCES public.user_profiles(id) ON DELETE SET NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    status VARCHAR(30) NOT NULL DEFAULT 'pending' CHECK (
+        status IN ('pending', 'in_progress', 'review', 'completed')
+    ),
+    priority VARCHAR(20) NOT NULL DEFAULT 'medium' CHECK (
+        priority IN ('low', 'medium', 'high', 'urgent')
+    ),
+    due_date DATE,
+    completion_evidence TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS public.project_milestones (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    project_id UUID NOT NULL REFERENCES public.projects(id) ON DELETE CASCADE,
+    title VARCHAR(255) NOT NULL,
+    target_date DATE,
+    is_completed BOOLEAN NOT NULL DEFAULT false,
+    completed_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_tasks_project ON public.project_tasks(project_id);
+CREATE INDEX IF NOT EXISTS idx_tasks_assigned ON public.project_tasks(assigned_to);
+CREATE INDEX IF NOT EXISTS idx_milestones_project ON public.project_milestones(project_id);

@@ -1,0 +1,50 @@
+-- 008_create_projects.sql
+-- Project delivery pipeline and service tracking
+
+CREATE TABLE IF NOT EXISTS public.projects (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    customer_id UUID NOT NULL REFERENCES public.customers(id) ON DELETE RESTRICT,
+    lead_id UUID REFERENCES public.leads(id) ON DELETE SET NULL,
+    quotation_id UUID REFERENCES public.quotations(id) ON DELETE SET NULL,
+    project_reference VARCHAR(50) NOT NULL UNIQUE,
+    project_name VARCHAR(255) NOT NULL,
+    department_id UUID NOT NULL REFERENCES public.departments(id) ON DELETE RESTRICT,
+    
+    -- Project delivery pipeline stages
+    status VARCHAR(50) NOT NULL DEFAULT 'AWAITING ACTIVATION' CHECK (
+        status IN (
+            'AWAITING ACTIVATION',
+            'ONBOARDING',
+            'REQUIREMENTS PENDING',
+            'READY FOR WORK',
+            'IN PROGRESS',
+            'QUALITY REVIEW',
+            'AWAITING CLIENT APPROVAL',
+            'DELIVERED',
+            'AFTERCARE'
+        )
+    ),
+    
+    project_manager UUID REFERENCES public.user_profiles(id) ON DELETE SET NULL,
+    start_date DATE,
+    expected_completion DATE,
+    completed_at TIMESTAMPTZ,
+    
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Services bundled into this project
+CREATE TABLE IF NOT EXISTS public.project_services (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    project_id UUID NOT NULL REFERENCES public.projects(id) ON DELETE CASCADE,
+    service_id UUID NOT NULL REFERENCES public.services(id) ON DELETE RESTRICT,
+    scope_notes TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_projects_ref ON public.projects(project_reference);
+CREATE INDEX IF NOT EXISTS idx_projects_cust ON public.projects(customer_id);
+CREATE INDEX IF NOT EXISTS idx_projects_dept ON public.projects(department_id);
+CREATE INDEX IF NOT EXISTS idx_projects_manager ON public.projects(project_manager);
+CREATE INDEX IF NOT EXISTS idx_projects_status ON public.projects(status);

@@ -1,5 +1,28 @@
+# Environment variables
 .env
 .env.*
+!.env.example
+
+# Dependencies
 node_modules/
+.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Next.js build output
+.next/
+out/
+
+# Production build
+build
+
+# Misc
 .DS_Store
+*.pem
 *.log
+
+# Temp files
+*.zip
+temp_extract/
