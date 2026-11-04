@@ -1,0 +1,31 @@
+{
+  "name": "hamzury-holding",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hamzury Holding website, enquiries, client journey and staff workspace",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "check": "node scripts/check.mjs",
+    "format": "prettier --write src public/scripts public/*.html",
+    "format:check": "prettier --check src"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "prettier": "^3.9.10",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
+    "next": "^16.4.5",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
+}
